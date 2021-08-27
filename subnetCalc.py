@@ -21,24 +21,30 @@
 #  MA 02110-1301, USA.
 #  
 #  
-import ipaddress
+import ipaddress, os, time
 import socket, struct
 
 
 def main(args):
-	print ("welcome to the Subnet Calculator")
-	print ("enter the ip address")
+	print ("WeLcOmE!! to the Subnet Calculator!")
+	print ("by: K Marshall")
+	time.sleep(3)
+	os.system("cls")
+	
+	print ("Enter the ip address")
 	string = input()
-
 	interger = ip2long(string)	
 	binary = "{0:b}".format(interger).zfill(8)
-	print("in binary, this is - \n" +binary)
+	print("In binary, this is... \n" +binary)
+	time.sleep(1)
+	os.system("cls")
 	
 	print("Now enter a subnet mask. use '/n' or 'x.x.x.x'")
 	subMask = input()
+	os.system("cls")
 	
 	if subMask[0]=="/":
-		print ("CIDR notation. in binary this is...")
+		print ("CIDR notation. in binary this mask is...")
 		subBinStr = ""
 		counter = int(subMask[1:])
 		bitCount=32
@@ -48,32 +54,36 @@ def main(args):
 			counter -=1
 		
 		subBin = subBinStr.ljust(32,"0")
-		print (subBin)
+		print (subBin+"\n")
+		print ("Your chosen IP was...\n" + string + "\n")
+		print ("In binary, thats...\n" + binary +"\n")
 		
 		network = ipaddress.IPv4Network(string + subMask, strict=False)
-		print("your Net Address is : \n"+str(network.network_address))
+		print("Your Net Address is... \n"+str(network.network_address) + "\n")
 		
-		print("your available hosts are... \n")
+		print("Your available hosts are...")
 
 		hosts = list (network.hosts())
 		n = len(hosts) - 1
-		print ( str(hosts[0]) + " - Through - " + str(hosts[n]))
+		print ( str(hosts[0]) + " - Through - " + str(hosts[n]) + "\n")
 		
-		print("and your broadcast address is - \n" + str(hosts[n]+1))
+		print("And your broadcast address is... \n" + str(hosts[n]+1) + "\n")
 		
 
 	elif subMask[0].isdigit() == True:
 		print ("octet")
 		network = ipaddress.IPv4Network(string + "/" + subMask, strict=False)
-		print("your Net Address is : \n"+str(network.network_address))
+		print ("Your chosen IP was...\n" + string + "\n")
+		print ("In binary, thats...\n" + binary +"\n")
+		print("Your Net Address is... \n"+str(network.network_address) + "\n")
 		
-		print("your available hosts are... \n")
+		print("Your available hosts are...")
 
 		hosts = list (network.hosts())
 		n = len(hosts) - 1
-		print ( str(hosts[0]) + " - Through - " + str(hosts[n]))
+		print ( str(hosts[0]) + " - Through - " + str(hosts[n]) + "\n")
 		
-		print("and your broadcast address is - \n" + str(hosts[n]+1))
+		print("And your broadcast address is... \n" + str(hosts[n]+1))
 		
 	else:
 	 print("You done fucked up, kid")
